@@ -3,6 +3,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="9530"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
     </dependencies>
     <scenes>
         <!--Navigation Controller-->
@@ -45,7 +46,7 @@
                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Recent Orders" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="8nP-ji-JA0">
                                             <rect key="frame" x="7" y="104" width="111" height="21"/>
                                             <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
                                             <nil key="highlightedColor"/>
                                         </label>
                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="category-1-recent" translatesAutoresizingMaskIntoConstraints="NO" id="oFA-yQ-8Ax">
@@ -81,22 +82,83 @@
             </objects>
             <point key="canvasLocation" x="901" y="843"/>
         </scene>
-        <!--Table View Controller-->
+        <!--Product View-->
         <scene sceneID="g1h-MF-ron">
             <objects>
-                <tableViewController id="2BW-P7-IjS" sceneMemberID="viewController">
+                <tableViewController id="2BW-P7-IjS" customClass="ProductView" customModule="ShopME" customModuleProvider="target" sceneMemberID="viewController">
                     <tableView key="view" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="28" sectionFooterHeight="28" id="4Bi-5A-uhH">
                         <rect key="frame" x="0.0" y="0.0" width="600" height="600"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="2qd-9U-Bqh">
-                                <rect key="frame" x="0.0" y="92" width="600" height="44"/>
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="productCell" rowHeight="100" id="2qd-9U-Bqh" customClass="ProductCell" customModule="ShopME" customModuleProvider="target">
+                                <rect key="frame" x="0.0" y="92" width="600" height="100"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="2qd-9U-Bqh" id="KxL-98-KTq">
-                                    <rect key="frame" x="0.0" y="0.0" width="600" height="43"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="600" height="99"/>
                                     <autoresizingMask key="autoresizingMask"/>
+                                    <subviews>
+                                        <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="grocery-1-tomatoes" translatesAutoresizingMaskIntoConstraints="NO" id="yzE-qQ-Hvh">
+                                            <rect key="frame" x="8" y="8" width="83" height="83"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="83" id="ybs-nX-WMq"/>
+                                            </constraints>
+                                        </imageView>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Tomato, per lb" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Ot8-p7-2AB">
+                                            <rect key="frame" x="93" y="0.0" width="507" height="21"/>
+                                            <color key="backgroundColor" red="0.2627450980392157" green="0.396078431372549" blue="0.59607843137254901" alpha="1" colorSpace="calibratedRGB"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="On the vine" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="TMg-Yb-Jsj">
+                                            <rect key="frame" x="99" y="34" width="74" height="31"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                            <color key="textColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="$2.45" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="LGf-2G-HLz">
+                                            <rect key="frame" x="99" y="75" width="46" height="21"/>
+                                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                            <color key="textColor" red="0.20784313725490197" green="0.44313725490196076" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                                            <nil key="highlightedColor"/>
+                                        </label>
+                                        <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="y58-bA-8cG">
+                                            <rect key="frame" x="561" y="60" width="31" height="31"/>
+                                            <constraints>
+                                                <constraint firstAttribute="width" constant="31" id="vsV-6c-mF9"/>
+                                            </constraints>
+                                            <state key="normal" image="add-button"/>
+                                            <connections>
+                                                <action selector="addProductButton:" destination="2qd-9U-Bqh" eventType="touchUpInside" id="VYB-Hx-lYT"/>
+                                            </connections>
+                                        </button>
+                                    </subviews>
+                                    <constraints>
+                                        <constraint firstItem="TMg-Yb-Jsj" firstAttribute="leading" secondItem="yzE-qQ-Hvh" secondAttribute="trailing" constant="8" id="4sp-Pl-qgs"/>
+                                        <constraint firstItem="Ot8-p7-2AB" firstAttribute="leading" secondItem="yzE-qQ-Hvh" secondAttribute="trailing" constant="2" id="E6U-PG-sXE"/>
+                                        <constraint firstItem="yzE-qQ-Hvh" firstAttribute="top" secondItem="KxL-98-KTq" secondAttribute="topMargin" id="KNm-QP-dEK"/>
+                                        <constraint firstItem="TMg-Yb-Jsj" firstAttribute="leading" secondItem="yzE-qQ-Hvh" secondAttribute="trailing" constant="8" symbolic="YES" id="M8A-FD-xKU"/>
+                                        <constraint firstItem="LGf-2G-HLz" firstAttribute="top" secondItem="TMg-Yb-Jsj" secondAttribute="bottom" constant="10" id="OD6-QA-tAO"/>
+                                        <constraint firstItem="TMg-Yb-Jsj" firstAttribute="top" secondItem="Ot8-p7-2AB" secondAttribute="bottom" constant="13" id="T66-qU-vvN"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="yzE-qQ-Hvh" secondAttribute="bottom" id="XiV-0m-tnx"/>
+                                        <constraint firstItem="yzE-qQ-Hvh" firstAttribute="centerY" secondItem="TMg-Yb-Jsj" secondAttribute="centerY" id="YEZ-ty-SjY"/>
+                                        <constraint firstAttribute="trailingMargin" secondItem="Ot8-p7-2AB" secondAttribute="trailing" constant="-8" id="YX5-Vr-kqI"/>
+                                        <constraint firstItem="y58-bA-8cG" firstAttribute="top" secondItem="Ot8-p7-2AB" secondAttribute="bottom" constant="39" id="bt1-bZ-ULj"/>
+                                        <constraint firstAttribute="leadingMargin" secondItem="yzE-qQ-Hvh" secondAttribute="leading" id="eKB-U9-pGW"/>
+                                        <constraint firstItem="Ot8-p7-2AB" firstAttribute="leading" secondItem="yzE-qQ-Hvh" secondAttribute="trailing" constant="2" id="mqa-9z-iqP"/>
+                                        <constraint firstItem="y58-bA-8cG" firstAttribute="trailing" secondItem="KxL-98-KTq" secondAttribute="trailingMargin" id="nID-Gz-PLY"/>
+                                        <constraint firstAttribute="bottomMargin" secondItem="Ot8-p7-2AB" secondAttribute="bottom" constant="70" id="w2O-wQ-Oq4"/>
+                                        <constraint firstItem="LGf-2G-HLz" firstAttribute="leading" secondItem="yzE-qQ-Hvh" secondAttribute="trailing" constant="8" symbolic="YES" id="wmb-i6-OaP"/>
+                                        <constraint firstItem="y58-bA-8cG" firstAttribute="bottom" secondItem="yzE-qQ-Hvh" secondAttribute="bottom" id="zyk-Ln-aD4"/>
+                                    </constraints>
                                 </tableViewCellContentView>
+                                <connections>
+                                    <outlet property="productImage" destination="yzE-qQ-Hvh" id="3NF-KU-PRK"/>
+                                    <outlet property="productPrice" destination="LGf-2G-HLz" id="bXw-SO-2sU"/>
+                                    <outlet property="productSubtitle" destination="TMg-Yb-Jsj" id="mzw-lk-EP3"/>
+                                    <outlet property="productTitle" destination="Ot8-p7-2AB" id="gpQ-mM-VpY"/>
+                                </connections>
                             </tableViewCell>
                         </prototypes>
                         <connections>
@@ -118,7 +180,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="RUr-yF-BkA">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="cartCell" id="RUr-yF-BkA">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="RUr-yF-BkA" id="wda-Vv-AyC">
@@ -146,7 +208,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         <prototypes>
-                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" id="VI4-qz-Gkp">
+                            <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="orderCell" id="VI4-qz-Gkp">
                                 <rect key="frame" x="0.0" y="92" width="600" height="44"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="VI4-qz-Gkp" id="WdX-AT-X56">
@@ -167,6 +229,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="add-button" width="256" height="256"/>
         <image name="category-1-recent" width="297" height="299"/>
+        <image name="grocery-1-tomatoes" width="330" height="330"/>
     </resources>
 </document>
