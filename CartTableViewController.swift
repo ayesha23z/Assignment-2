@@ -18,6 +18,19 @@ class CartTableViewController: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        //
+        
+        //let logButton : UIBarButtonItem = UIBarButtonItem(title: "RigthButtonTitle", style: UIBarButtonItemStyle.Plain, target: self, action: "root")
+        
+        let logButton = UIButton()
+        logButton.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        logButton.setImage(UIImage(named: "homeButton"), forState: UIControlState.Normal)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: logButton)
+        logButton.addTarget(self, action: "root", forControlEvents: UIControlEvents.TouchUpInside)
+        //
+
+        
         if let currentCart = NSUserDefaults.standardUserDefaults().objectForKey("CurrentCart") as? NSData {
             self.currentCart = NSKeyedUnarchiver.unarchiveObjectWithData(currentCart) as? Cart
         } else {
@@ -27,6 +40,11 @@ class CartTableViewController: UITableViewController {
             NSUserDefaults.standardUserDefaults().synchronize()
         }
     }
+    
+    func root(){
+        navigationController?.popViewControllerAnimated(true)
+    }
+    
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         if indexPath.section > typesOfSections.count - 1 {
             return 100
@@ -274,6 +292,7 @@ class CartTableViewController: UITableViewController {
     override func viewWillAppear(animated: Bool) {
         navigationItem.title = "Your Cart"
     }
-
+    
+  
     
 }
