@@ -28,10 +28,16 @@ class CartTableViewController: UITableViewController {
         }
     }
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        if indexPath.section > typesOfSections.count - 1 {
+            return 100
+        }
         return 40
     }
     
     override func tableView(tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        if section > typesOfSections.count - 1 {
+            return nil
+        }
         switch typesOfSections[section] {
         case 1:
             return "Grocery"
@@ -58,7 +64,7 @@ class CartTableViewController: UITableViewController {
         
         if section == typesOfSections.count {
             //this will be the last row I need eventually
-            return 0
+            return 1
         }
         
         switch typesOfSections[section] {
@@ -83,7 +89,8 @@ class CartTableViewController: UITableViewController {
         }
     }
     override func numberOfSectionsInTableView(tableView: UITableView) -> Int {
-        var count = 0
+        var count = 1
+        typesOfSections.removeAll()
         if currentCart?.groceries.count > 0{
             typesOfSections.append(1)
             count++
@@ -120,10 +127,15 @@ class CartTableViewController: UITableViewController {
     }
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
-        
         if indexPath.section == typesOfSections.count {
-            //this will be the last row I need eventually
-            return UITableViewCell()
+            let cell = tableView.dequeueReusableCellWithIdentifier("totalQuantity", forIndexPath:indexPath) as! QuantityTableViewCell
+            //configure cell
+            cell.finalCartPrice.text = String(currentCart!.totalPrice!)
+            cell.finalCartQuantity.text = String(currentCart!.totalQuantity!)
+            cell.emptyCart.userInteractionEnabled = true
+            let tapRecognizer = UITapGestureRecognizer(target: self, action: "emptyCart")
+            cell.emptyCart.addGestureRecognizer(tapRecognizer)
+            return cell
         }
         
         let cell = tableView.dequeueReusableCellWithIdentifier("cartCell", forIndexPath:indexPath) as! CartTableViewCell
@@ -161,12 +173,106 @@ class CartTableViewController: UITableViewController {
         //cell.titleLabel.text = product.title
         //etc.
         cell.cartProductTitle.text = product?.title
-        cell.cartPrice.text = String(product!.price!) //this won't work for +/- the price since it's a string
-        //cell.cartDecreaseQuantity.image =
+        cell.cartPrice.text = String(product!.price!)
         cell.cartProductQuantity.text = String(product!.amount!)
-        //cell.cartIncreaseQuantity.image =
-        
+        cell.cartIncreaseQuantity.addTarget(self, action: "increaseAmount:", forControlEvents: UIControlEvents.TouchUpInside)
+        cell.cartIncreaseQuantity.tag = typesOfSections[indexPath.section] * 100 + indexPath.row
+        cell.cartDecreaseQuantity.addTarget(self, action: "decreaseAmount:", forControlEvents: UIControlEvents.TouchUpInside)
+        cell.cartDecreaseQuantity.tag = typesOfSections[indexPath.section] * 100 + indexPath.row
         return cell
+    }
+    
+    func increaseAmount(sender: UIButton){
+        print(sender.tag)
+        switch sender.tag/100 {
+        case 1:
+            currentCart?.addObject(currentCart!.groceries[sender.tag % 100], type: sender.tag/100 + 1)
+            break
+        case 2:
+          
+            currentCart?.addObject(currentCart!.clothing[sender.tag % 100], type: sender.tag/100 + 1)
+            break
+        case 3:
+            currentCart?.addObject(currentCart!.movies[sender.tag % 100], type: sender.tag/100 + 1)
+            break
+        case 4:
+            currentCart?.addObject(currentCart!.garden[sender.tag % 100], type: sender.tag/100 + 1)
+            break
+        case 5:
+            currentCart?.addObject(currentCart!.electronics[sender.tag % 100], type: sender.tag/100 + 1)
+            break
+        case 6:
+            currentCart?.addObject(currentCart!.books[sender.tag % 100], type: sender.tag/100 + 1)
+            break
+        case 7:
+            currentCart?.addObject(currentCart!.appliances[sender.tag % 100], type: sender.tag/100 + 1)
+            break
+        case 8:
+            currentCart?.addObject(currentCart!.toys[sender.tag % 100], type: sender.tag/100 + 1)
+            break
+        default:
+            break
+        }
+        let data = NSKeyedArchiver.archivedDataWithRootObject(currentCart!)
+        NSUserDefaults.standardUserDefaults().setObject(data, forKey: "CurrentCart")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        tableView.reloadData()
+        
+    }
+    
+    func decreaseAmount(sender: UIButton){
+        switch sender.tag/100 {
+        case 1:
+            currentCart!.groceries[sender.tag % 100].amount!--
+            currentCart!.totalPrice! -= currentCart!.groceries[sender.tag % 100].price!
+            break
+        case 2:
+            currentCart!.clothing[sender.tag % 100].amount!--
+            currentCart!.totalPrice! -= currentCart!.clothing[sender.tag % 100].price!
+            break
+        case 3:
+            currentCart!.movies[sender.tag % 100].amount!--
+            currentCart!.totalPrice! -= currentCart!.movies[sender.tag % 100].price!
+            break
+        case 4:
+            currentCart!.garden[sender.tag % 100].amount!--
+            currentCart!.totalPrice! -= currentCart!.garden[sender.tag % 100].price!
+            break
+        case 5:
+            currentCart!.electronics[sender.tag % 100].amount!--
+            currentCart!.totalPrice! -= currentCart!.electronics[sender.tag % 100].price!
+            break
+        case 6:
+            currentCart!.books[sender.tag % 100].amount!--
+            currentCart!.totalPrice! -= currentCart!.books[sender.tag % 100].price!
+            break
+        case 7:
+            currentCart!.appliances[sender.tag % 100].amount!--
+            currentCart!.totalPrice! -= currentCart!.appliances[sender.tag % 100].price!
+            break
+        case 8:
+            currentCart!.toys[sender.tag % 100].amount!--
+            currentCart!.totalPrice! -= currentCart!.toys[sender.tag % 100].price!
+            break
+        default:
+            break
+        }
+        let data = NSKeyedArchiver.archivedDataWithRootObject(currentCart!)
+        NSUserDefaults.standardUserDefaults().setObject(data, forKey: "CurrentCart")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        tableView.reloadData()
+    }
+    
+    func emptyCart() {
+        currentCart = Cart(totalPrice: 0, totalQuantity: 0, purchaseDate: nil, groceries: [Product](), clothing: [Product](), movies: [Product](), garden: [Product](), electronics: [Product](), books: [Product](), appliances: [Product](), toys: [Product]())
+        let data = NSKeyedArchiver.archivedDataWithRootObject(currentCart!)
+        NSUserDefaults.standardUserDefaults().setObject(data, forKey: "CurrentCart")
+        NSUserDefaults.standardUserDefaults().synchronize()
+        tableView.reloadData()
+    }
+    
+    override func viewWillAppear(animated: Bool) {
+        navigationItem.title = "Your Cart"
     }
 
     

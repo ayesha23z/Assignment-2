@@ -71,6 +71,7 @@ class Cart: NSObject, NSCoding {
     
     func addObject(object: Product, type: Int) {
         totalQuantity = totalQuantity! + 1
+        totalPrice = totalPrice! + object.price!
         switch type {
         case 2:
             for product in groceries {
