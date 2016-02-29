@@ -20,6 +20,7 @@ class Product: NSObject, NSCoding {
         self.title = title
         self.subtitle = subtitle
         self.price = price
+        self.amount = amount
     }
     
     required convenience init(coder aDecoder: NSCoder) {
