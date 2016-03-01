@@ -147,12 +147,17 @@ class CartTableViewController: UITableViewController {
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         if indexPath.section == typesOfSections.count {
             let cell = tableView.dequeueReusableCellWithIdentifier("totalQuantity", forIndexPath:indexPath) as! QuantityTableViewCell
-            //configure cell
+            
             cell.finalCartPrice.text = String(currentCart!.totalPrice!)
             cell.finalCartQuantity.text = String(currentCart!.totalQuantity!)
             cell.emptyCart.userInteractionEnabled = true
             let tapRecognizer = UITapGestureRecognizer(target: self, action: "emptyCart")
             cell.emptyCart.addGestureRecognizer(tapRecognizer)
+            
+            cell.buyCart.userInteractionEnabled = true
+            let tapRecognizer2 = UITapGestureRecognizer(target: self, action: "buyCart")
+            cell.buyCart.addGestureRecognizer(tapRecognizer2)
+            
             return cell
         }
         
@@ -239,10 +244,12 @@ class CartTableViewController: UITableViewController {
     }
     
     func decreaseAmount(sender: UIButton){
+        currentCart!.totalQuantity!--
         switch sender.tag/100 {
         case 1:
             currentCart!.groceries[sender.tag % 100].amount!--
             currentCart!.totalPrice! -= currentCart!.groceries[sender.tag % 100].price!
+            
             break
         case 2:
             currentCart!.clothing[sender.tag % 100].amount!--
@@ -287,6 +294,25 @@ class CartTableViewController: UITableViewController {
         NSUserDefaults.standardUserDefaults().setObject(data, forKey: "CurrentCart")
         NSUserDefaults.standardUserDefaults().synchronize()
         tableView.reloadData()
+    }
+    
+    func buyCart() {
+        let dateFormat = NSDateFormatter()
+        dateFormat.dateFormat = "MMM/dd, EEE, hh:mm a"
+        let dateString = dateFormat.stringFromDate(NSDate())
+        print(dateString)
+        currentCart?.purchaseDate = dateString
+        let data = NSKeyedArchiver.archivedDataWithRootObject(currentCart!)
+        if var recentOrderData = NSUserDefaults.standardUserDefaults().objectForKey("RecentOrders") as? [NSData] {
+            recentOrderData.append(data)
+            NSUserDefaults.standardUserDefaults().setObject(recentOrderData, forKey: "RecentOrders")
+            
+        } else {
+            NSUserDefaults.standardUserDefaults().setObject([data], forKey: "RecentOrders")
+        }
+        
+        NSUserDefaults.standardUserDefaults().synchronize()
+        emptyCart()
     }
     
     override func viewWillAppear(animated: Bool) {

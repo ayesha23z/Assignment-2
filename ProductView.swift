@@ -15,6 +15,14 @@ class ProductView: UITableViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        let logButton = UIButton()
+        logButton.frame = CGRect(x: 0, y: 0, width: 25, height: 25)
+        logButton.setImage(UIImage(named: "cart"), forState: UIControlState.Normal)
+        navigationItem.rightBarButtonItem = UIBarButtonItem(customView: logButton)
+        logButton.addTarget(self, action: "goCart", forControlEvents: UIControlEvents.TouchUpInside)
+        
+        
         if let currentCart = NSUserDefaults.standardUserDefaults().objectForKey("CurrentCart") as? NSData {
             self.currentCart = NSKeyedUnarchiver.unarchiveObjectWithData(currentCart) as? Cart
         } else {
@@ -24,6 +32,11 @@ class ProductView: UITableViewController {
             NSUserDefaults.standardUserDefaults().synchronize()
         }
     }
+    
+    func goCart(){
+        performSegueWithIdentifier("goToCart", sender: nil)
+    }
+    
     
     override func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
         return 100
@@ -35,7 +48,6 @@ class ProductView: UITableViewController {
     
     override func tableView(tableView: UITableView, cellForRowAtIndexPath indexPath: NSIndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCellWithIdentifier("productCell", forIndexPath: indexPath) as! ProductCell
-        cell.clipsToBounds = true
         let product = products![indexPath.row]
         cell.product = product
         cell.type = type

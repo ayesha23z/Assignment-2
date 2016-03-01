@@ -12,7 +12,7 @@ class Cart: NSObject, NSCoding {
 
     var totalPrice: Double?
     var totalQuantity: Int? = 0
-    //var purchaseDate: NSDate?
+    var purchaseDate: String?
     var groceries = [Product]()
     var clothing = [Product]()
     var movies = [Product]()
@@ -23,10 +23,10 @@ class Cart: NSObject, NSCoding {
     var toys = [Product]()
     
     
-    init(totalPrice: Double?, totalQuantity: Int?, purchaseDate: NSDate?, groceries: [Product], clothing: [Product], movies: [Product], garden: [Product], electronics: [Product], books: [Product], appliances: [Product], toys: [Product]) {
+    init(totalPrice: Double?, totalQuantity: Int?, purchaseDate: String?, groceries: [Product], clothing: [Product], movies: [Product], garden: [Product], electronics: [Product], books: [Product], appliances: [Product], toys: [Product]) {
         self.totalPrice = totalPrice
         self.totalQuantity = totalQuantity
-        //self.purchaseDate = purchaseDate
+        self.purchaseDate = purchaseDate
         self.groceries = groceries
         self.clothing = clothing
         self.movies = movies
@@ -40,7 +40,7 @@ class Cart: NSObject, NSCoding {
     required convenience init(coder aDecoder: NSCoder) {
         let totalPrice = aDecoder.decodeDoubleForKey("totalPrice")
         let totalQuantity = aDecoder.decodeIntegerForKey("totalQuantity")
-        //let purchaseDate = aDecoder.decodeObjectForKey("purchaseDate") as! NSDate
+        let purchaseDate = aDecoder.decodeObjectForKey("purchaseDate") as! String?
         let groceries = aDecoder.decodeObjectForKey("groceries") as! [Product]
         let clothing = aDecoder.decodeObjectForKey("clothing") as! [Product]
         let movies = aDecoder.decodeObjectForKey("movies") as! [Product]
@@ -50,14 +50,14 @@ class Cart: NSObject, NSCoding {
         let appliances = aDecoder.decodeObjectForKey("appliances") as! [Product]
         let toys = aDecoder.decodeObjectForKey("toys") as! [Product]
         //change purchase data from nil
-        self.init(totalPrice: totalPrice, totalQuantity: totalQuantity, purchaseDate: nil, groceries: groceries, clothing: clothing, movies: movies, garden: garden, electronics: electronics, books: books, appliances: appliances, toys: toys)
+        self.init(totalPrice: totalPrice, totalQuantity: totalQuantity, purchaseDate: purchaseDate, groceries: groceries, clothing: clothing, movies: movies, garden: garden, electronics: electronics, books: books, appliances: appliances, toys: toys)
         
     }
     
     func encodeWithCoder(aCoder: NSCoder) {
         aCoder.encodeDouble(totalPrice!, forKey: "totalPrice")
         aCoder.encodeInteger(totalQuantity!, forKey: "totalQuantity")
-        //aCoder.encodeObject(purchaseDate, forKey: "purchaseDate")
+        aCoder.encodeObject(purchaseDate, forKey: "purchaseDate")
         aCoder.encodeObject(groceries, forKey: "groceries")
         aCoder.encodeObject(clothing, forKey: "clothing")
         aCoder.encodeObject(movies, forKey: "movies")
@@ -145,7 +145,6 @@ class Cart: NSObject, NSCoding {
         default:
             break
         }
-
     }
     
 }
