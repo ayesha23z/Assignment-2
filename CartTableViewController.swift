@@ -297,28 +297,45 @@ class CartTableViewController: UITableViewController {
     }
     
     func buyCart() {
-        let dateFormat = NSDateFormatter()
-        dateFormat.dateFormat = "MMM/dd, EEE, hh:mm a"
-        let dateString = dateFormat.stringFromDate(NSDate())
-        print(dateString)
-        currentCart?.purchaseDate = dateString
-        let data = NSKeyedArchiver.archivedDataWithRootObject(currentCart!)
-        if var recentOrderData = NSUserDefaults.standardUserDefaults().objectForKey("RecentOrders") as? [NSData] {
-            recentOrderData.append(data)
-            NSUserDefaults.standardUserDefaults().setObject(recentOrderData, forKey: "RecentOrders")
-            
-        } else {
-            NSUserDefaults.standardUserDefaults().setObject([data], forKey: "RecentOrders")
-        }
         
-        NSUserDefaults.standardUserDefaults().synchronize()
-        emptyCart()
+        if currentCart!.totalQuantity == 0{
+        return
+        }
+        let refreshAlert = UIAlertController(title: "PAYMENT", message: "Your card will be charged \(currentCart!.totalPrice!)", preferredStyle: UIAlertControllerStyle.Alert)
+        
+        
+        
+        refreshAlert.addAction(UIAlertAction(title: "Cancel", style: .Default, handler: nil))
+        
+        refreshAlert.addAction(UIAlertAction(title: "Place Order", style: .Default, handler: { (action: UIAlertAction!) in
+            let dateFormat = NSDateFormatter()
+            dateFormat.dateFormat = "MMM/dd, EEE, hh:mm a"
+            let dateString = dateFormat.stringFromDate(NSDate())
+            print(dateString)
+            self.currentCart?.purchaseDate = dateString
+            let data = NSKeyedArchiver.archivedDataWithRootObject(self.currentCart!)
+            if var recentOrderData = NSUserDefaults.standardUserDefaults().objectForKey("RecentOrders") as? [NSData] {
+                recentOrderData.append(data)
+                NSUserDefaults.standardUserDefaults().setObject(recentOrderData, forKey: "RecentOrders")
+                
+            } else {
+                NSUserDefaults.standardUserDefaults().setObject([data], forKey: "RecentOrders")
+            }
+            
+            NSUserDefaults.standardUserDefaults().synchronize()
+            self.emptyCart()
+        }))
+        
+        presentViewController(refreshAlert, animated: true, completion: nil)
     }
     
     override func viewWillAppear(animated: Bool) {
         navigationItem.title = "Your Cart"
+        
+        
     }
     
-  
+    
+   
     
 }
