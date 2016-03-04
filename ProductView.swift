@@ -21,7 +21,7 @@ class ProductView: UITableViewController {
         logButton.setImage(UIImage(named: "cart"), forState: UIControlState.Normal)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: logButton)
         logButton.addTarget(self, action: "goCart", forControlEvents: UIControlEvents.TouchUpInside)
-        
+    
         
         if let currentCart = NSUserDefaults.standardUserDefaults().objectForKey("CurrentCart") as? NSData {
             self.currentCart = NSKeyedUnarchiver.unarchiveObjectWithData(currentCart) as? Cart

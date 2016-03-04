@@ -28,9 +28,7 @@ class CartTableViewController: UITableViewController {
         logButton.setImage(UIImage(named: "homeButton"), forState: UIControlState.Normal)
         navigationItem.rightBarButtonItem = UIBarButtonItem(customView: logButton)
         logButton.addTarget(self, action: "root", forControlEvents: UIControlEvents.TouchUpInside)
-        //
-
-        
+ 
         if let currentCart = NSUserDefaults.standardUserDefaults().objectForKey("CurrentCart") as? NSData {
             self.currentCart = NSKeyedUnarchiver.unarchiveObjectWithData(currentCart) as? Cart
         } else {
@@ -324,6 +322,10 @@ class CartTableViewController: UITableViewController {
             
             NSUserDefaults.standardUserDefaults().synchronize()
             self.emptyCart()
+            
+           self.navigationController?.popToRootViewControllerAnimated(true)
+            
+            
         }))
         
         presentViewController(refreshAlert, animated: true, completion: nil)
