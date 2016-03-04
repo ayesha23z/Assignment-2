@@ -15,16 +15,7 @@ class ProductCell: UITableViewCell {
     @IBOutlet weak var productPrice: UILabel!
     @IBOutlet weak var productImage: UIImageView!
     var product: Product?
+    @IBOutlet weak var addProduct: UIButton!
     var type: Int?
-
-    @IBAction func addProductButton(sender: AnyObject) {
-        if let data = NSUserDefaults.standardUserDefaults().objectForKey("CurrentCart") as? NSData {
-            let currentCart = NSKeyedUnarchiver.unarchiveObjectWithData(data) as! Cart
-            currentCart.addObject(product!, type: type!)
-            let data = NSKeyedArchiver.archivedDataWithRootObject(currentCart)
-            NSUserDefaults.standardUserDefaults().setObject(data, forKey: "CurrentCart")
-            NSUserDefaults.standardUserDefaults().synchronize()
-        }
-    }
     
 }

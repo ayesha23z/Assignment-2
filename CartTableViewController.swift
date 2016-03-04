@@ -146,7 +146,13 @@ class CartTableViewController: UITableViewController {
         if indexPath.section == typesOfSections.count {
             let cell = tableView.dequeueReusableCellWithIdentifier("totalQuantity", forIndexPath:indexPath) as! QuantityTableViewCell
             
-            cell.finalCartPrice.text = String(currentCart!.totalPrice!)
+            
+            
+            let formatter = NSNumberFormatter()
+            formatter.numberStyle = .CurrencyStyle
+            formatter.locale = NSLocale.currentLocale()
+            
+            cell.finalCartPrice.text = formatter.stringFromNumber(currentCart!.totalPrice!)
             cell.finalCartQuantity.text = String(currentCart!.totalQuantity!)
             cell.emptyCart.userInteractionEnabled = true
             let tapRecognizer = UITapGestureRecognizer(target: self, action: "emptyCart")
@@ -247,35 +253,58 @@ class CartTableViewController: UITableViewController {
         case 1:
             currentCart!.groceries[sender.tag % 100].amount!--
             currentCart!.totalPrice! -= currentCart!.groceries[sender.tag % 100].price!
-            
+            if currentCart!.groceries[sender.tag % 100].amount! == 0{
+                currentCart!.groceries.removeAtIndex(sender.tag % 100)
+            }
             break
         case 2:
             currentCart!.clothing[sender.tag % 100].amount!--
             currentCart!.totalPrice! -= currentCart!.clothing[sender.tag % 100].price!
+            if currentCart!.clothing[sender.tag % 100].amount! == 0{
+                currentCart!.clothing.removeAtIndex(sender.tag % 100)
+            }
             break
         case 3:
             currentCart!.movies[sender.tag % 100].amount!--
             currentCart!.totalPrice! -= currentCart!.movies[sender.tag % 100].price!
+            if currentCart!.movies[sender.tag % 100].amount! == 0{
+                currentCart!.movies.removeAtIndex(sender.tag % 100)
+            }
             break
         case 4:
             currentCart!.garden[sender.tag % 100].amount!--
             currentCart!.totalPrice! -= currentCart!.garden[sender.tag % 100].price!
+            if currentCart!.garden[sender.tag % 100].amount! == 0{
+                currentCart!.garden.removeAtIndex(sender.tag % 100)
+            }
             break
         case 5:
             currentCart!.electronics[sender.tag % 100].amount!--
             currentCart!.totalPrice! -= currentCart!.electronics[sender.tag % 100].price!
+            if currentCart!.electronics[sender.tag % 100].amount! == 0{
+                currentCart!.electronics.removeAtIndex(sender.tag % 100)
+            }
             break
         case 6:
             currentCart!.books[sender.tag % 100].amount!--
             currentCart!.totalPrice! -= currentCart!.books[sender.tag % 100].price!
+            if currentCart!.books[sender.tag % 100].amount! == 0{
+                currentCart!.books.removeAtIndex(sender.tag % 100)
+            }
             break
         case 7:
             currentCart!.appliances[sender.tag % 100].amount!--
             currentCart!.totalPrice! -= currentCart!.appliances[sender.tag % 100].price!
+            if currentCart!.appliances[sender.tag % 100].amount! == 0{
+                currentCart!.appliances.removeAtIndex(sender.tag % 100)
+            }
             break
         case 8:
             currentCart!.toys[sender.tag % 100].amount!--
             currentCart!.totalPrice! -= currentCart!.toys[sender.tag % 100].price!
+            if currentCart!.toys[sender.tag % 100].amount! == 0{
+                currentCart!.toys.removeAtIndex(sender.tag % 100)
+            }
             break
         default:
             break
@@ -292,6 +321,7 @@ class CartTableViewController: UITableViewController {
         NSUserDefaults.standardUserDefaults().setObject(data, forKey: "CurrentCart")
         NSUserDefaults.standardUserDefaults().synchronize()
         tableView.reloadData()
+        self.navigationController?.popToRootViewControllerAnimated(true)
     }
     
     func buyCart() {
@@ -313,7 +343,10 @@ class CartTableViewController: UITableViewController {
             self.currentCart?.purchaseDate = dateString
             let data = NSKeyedArchiver.archivedDataWithRootObject(self.currentCart!)
             if var recentOrderData = NSUserDefaults.standardUserDefaults().objectForKey("RecentOrders") as? [NSData] {
-                recentOrderData.append(data)
+                recentOrderData.insert(data, atIndex: 0)
+                if recentOrderData.count == 11{
+                    recentOrderData.removeAtIndex(10)
+                }
                 NSUserDefaults.standardUserDefaults().setObject(recentOrderData, forKey: "RecentOrders")
                 
             } else {

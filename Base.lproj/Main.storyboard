@@ -130,9 +130,6 @@
                                                 <constraint firstAttribute="width" constant="31" id="vsV-6c-mF9"/>
                                             </constraints>
                                             <state key="normal" image="add-button"/>
-                                            <connections>
-                                                <action selector="addProductButton:" destination="2qd-9U-Bqh" eventType="touchUpInside" id="VYB-Hx-lYT"/>
-                                            </connections>
                                         </button>
                                     </subviews>
                                     <constraints>
@@ -155,6 +152,7 @@
                                     </constraints>
                                 </tableViewCellContentView>
                                 <connections>
+                                    <outlet property="addProduct" destination="y58-bA-8cG" id="2oi-Js-kPn"/>
                                     <outlet property="productImage" destination="yzE-qQ-Hvh" id="3NF-KU-PRK"/>
                                     <outlet property="productPrice" destination="LGf-2G-HLz" id="bXw-SO-2sU"/>
                                     <outlet property="productSubtitle" destination="TMg-Yb-Jsj" id="mzw-lk-EP3"/>
